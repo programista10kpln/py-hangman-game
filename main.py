@@ -11,14 +11,15 @@ def hangman_game():
     letters_current_word = [letter for letter in current_word]
 
     guessed_letters = []
-    inputs_to_hang = round((len(current_word) / 26) * 100)
+    player_inputs = set()
+    inputs_to_hang = round((len(current_word) / 26) * 50)
 
     print("let's play hangman\n".upper())
 
     while True:
         if inputs_to_hang != 0 and '_' in secret_current_word:
             print(' '.join(secret_current_word))
-            print(f'you can make {inputs_to_hang} mistakes')
+            print(f'you can make {inputs_to_hang} mistakes and you have used this letters: {" ".join(player_inputs)}')
             player_input = input('enter a letter\n').lower()
 
             if player_input in letters_current_word:
@@ -33,8 +34,10 @@ def hangman_game():
                     continue
             else:
                 print('wrong guess buddy\n')
+                player_inputs.add(player_input.upper())
                 inputs_to_hang = inputs_to_hang - 1
         elif '_' not in secret_current_word:
+            print(current_word)
             print('\nyou won! congrats')
             break
         elif inputs_to_hang == 0:
